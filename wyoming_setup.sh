@@ -2,6 +2,15 @@
 YELLOW='\033[0;33m' #Yellow Text
 NC='\033[0m' #No Color
 
+# Lets update the system.
+updateme () {
+  echo -e "\n${YELLOW}Setting our Rasberry Pi to be $satName\n${NC}"
+  apt update
+  apt dist-upgrade -y
+  apt autoremove -y
+  apt autoclean -y
+}
+
 # Lets set our Raspberry PI Satellite Designation (ie. HAsat3)
 set_new_hostname () {
   echo -e "\n${YELLOW}Setting our Rasberry Pi to be $satName\n${NC}"
@@ -127,6 +136,7 @@ read -p 'Are you using the respeak hat? (y or n)' respeak
 if [[ $respeak == 'y' ]]
 then
   set_new_hostname
+  updateme
   satellite_setup
   respeaker_setup
   wyoming_install
@@ -139,6 +149,7 @@ then
   systemctl start 2mic_leds.service
 else
   set_new_hostname
+  updateme
   satellite_setup
   wyoming_install
   #wyoming_start
